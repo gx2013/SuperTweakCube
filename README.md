@@ -12,6 +12,7 @@
 ### Visual Studio 2010  开发环境
 
 ### Blender   3D建模工具
+官方网站[www.blender.org](www.blender.org)<br />
 可使用BlenderExport 作为模型导出插件<br />
 BlenderExport可在Ogre官网下载<br />
 
@@ -39,6 +40,10 @@ github建议使用图形界面的版本
 ### Ogitor  基于Ogre的场景编辑器
 官方网站：[http://www.ogitor.org/](http://www.ogitor.org/)<br />
 网上的使用案例很少，完全不保证是否靠谱
+
+### BFXR	一个很小的可以生成电子音效的网站
+[http://www.bfxr.net/](http://www.bfxr.net/)<br />
+可以生成类似早期红白机的8-bit音效
 
 以后想到什么在进行补充
 

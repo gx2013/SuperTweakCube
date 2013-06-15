@@ -18,5 +18,40 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DemoApp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStateManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OgreFramework.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RunState.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DemoApp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStateManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OgreFramework.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RunState.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
