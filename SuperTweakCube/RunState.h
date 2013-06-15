@@ -32,6 +32,7 @@ public:
 	bool mousePressed( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
 	bool mouseReleased( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
 
+	void mouseEvent();
 
 	void Update(double timeSinceLastFrame);
 
@@ -39,11 +40,16 @@ private:
 	bool m_bQuit;
 	Ogre::Entity* _SinbadEnt;
 	Ogre::SceneNode* _SinbadNode;
+	Ogre::Entity* _CubeEnt;
+	Ogre::SceneNode* _CubeNode;
 	Ogre::AnimationState* _aniState;
 	Ogre::AnimationState* _aniStateTop;
 	Ogre::Vector3 translate;
 	Ogre::Vector3 SinbadTranslate;
 	float _rotation;
+	bool Cubeattack;
 	int walkedud;
 	int walkedlr;
+	int Cubetime;
+	Ogre::Vector3 Cubedirect;
 };

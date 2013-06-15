@@ -10,6 +10,7 @@ CRunState::CRunState()
 	walkedud=0;
 	walkedlr=0;
 	m_FrameEvent = Ogre::FrameEvent();
+	Cubeattack=false;
 }
 
 void CRunState::Enter()
@@ -70,6 +71,9 @@ void CRunState::CreateScene()
 	_aniStateTop->setEnabled(true);
 	_aniStateTop->setLoop(false);
 
+	_CubeEnt = m_pSceneMgr->createEntity("Cube","Cube.mesh");
+	_CubeNode = m_pSceneMgr->createSceneNode("CubeNode");
+	m_pSceneMgr->getRootSceneNode()->addChild(_CubeNode);
 }
 
 void CRunState::Exit()
@@ -214,6 +218,8 @@ bool CRunState::mouseMoved(const OIS::MouseEvent &evt)
 
 bool CRunState::mousePressed( const OIS::MouseEvent &evt, OIS::MouseButtonID id )
 {
+	if(id == OIS::MB_Left)
+		mouseEvent();
 	return true;
 }
 
@@ -263,5 +269,31 @@ void CRunState::Update(double timeSinceLastFrame)
 	_SinbadNode->translate(SinbadTranslate * timeSinceLastFrame/20);
 	_SinbadNode->resetOrientation();
 	_SinbadNode->yaw(Ogre::Radian(_rotation));
+	if(Cubeattack==true)
+	{
+		if(Cubetime>0)
+		{
+			Cubetime--;
+			_CubeNode->translate(Cubedirect * timeSinceLastFrame/300);
+		}
+		else
+		{
+			Cubeattack=false;
+			_CubeNode->detachAllObjects();
+		}
+	}
+}
 
+void CRunState::mouseEvent()
+{
+	Ray mouseRay=COgreFramework::getSingletonPtr()->m_pTrayMgr->getCursorRay(m_pCamera);
+	if(Cubeattack==false)
+	{
+		_CubeNode->setScale(0.1f,0.1f,0.1f);
+		Cubedirect=(mouseRay.getPoint((mouseRay.intersects(Plane(Vector3::UNIT_Y, -5))).second)-_SinbadNode->getPosition());
+		_CubeNode->setPosition(_SinbadNode->getPosition());
+		_CubeNode->attachObject(_CubeEnt);
+		Cubetime=100;
+		Cubeattack=true;
+	}
 }

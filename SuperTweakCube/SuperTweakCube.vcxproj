@@ -74,6 +74,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="GameStateCube.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
@@ -83,6 +84,7 @@
   <ItemGroup>
     <ClInclude Include="DemoApp.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameStateCube.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="OgreFramework.h" />
