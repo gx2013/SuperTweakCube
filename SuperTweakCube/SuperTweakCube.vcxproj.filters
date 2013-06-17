@@ -33,9 +33,6 @@
     <ClCompile Include="RunState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="GameStateCube.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DemoApp.h">
@@ -54,9 +51,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RunState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="GameStateCube.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
