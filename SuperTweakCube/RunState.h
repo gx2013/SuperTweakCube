@@ -11,6 +11,7 @@
 *********************************************************************/
 
 #include "GameState.h"
+#include "RunStateEnemy.h"
 
 class CRunState : public CGameState
 {
@@ -52,4 +53,5 @@ private:
 	int walkedlr;
 	int Cubetime;
 	Ogre::Vector3 Cubedirect;
+	RunStateEnemy *Enemy;
 };

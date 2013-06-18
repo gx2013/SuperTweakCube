@@ -74,6 +74,9 @@ void CRunState::CreateScene()
 	_CubeEnt = m_pSceneMgr->createEntity("Cube","Cube.mesh");
 	_CubeNode = m_pSceneMgr->createSceneNode("CubeNode");
 	m_pSceneMgr->getRootSceneNode()->addChild(_CubeNode);
+
+	Enemy=new RunStateEnemy(m_pSceneMgr);
+	Enemy->CreateEnemy();
 }
 
 void CRunState::Exit()

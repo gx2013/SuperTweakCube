@@ -74,19 +74,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DemoApp.cpp" />
+    <ClCompile Include="RunStateCube.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuState.cpp" />
     <ClCompile Include="OgreFramework.cpp" />
     <ClCompile Include="RunState.cpp" />
+    <ClCompile Include="RunStateEnemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DemoApp.h" />
     <ClInclude Include="GameState.h" />
+    <ClInclude Include="RunStateCube.h" />
     <ClInclude Include="GameStateManager.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="OgreFramework.h" />
     <ClInclude Include="RunState.h" />
+    <ClInclude Include="RunStateEnemy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -49,7 +49,9 @@ github建议使用图形界面的版本
 
 关于Ogre的配置：
 -----------------------------------
->1、直接下载这里的代码<br />
+>1、点击ZIP直接下载这里的代码<br />
 >2、在cmd中输入setx OGRE_HOME "<这里输入下载的SDK的路径>"<br />
->3、记得跑一下例程看是否可以运行<br />
+>3、右键SuperTweakCube->属性->调试->将工作目录改为$(OGRE_HOME)\bin\$(Configuration)
+>4、记得跑一下例程看是否可以运行<br />
+现在主要的场景建设在RunState中
 也可参考[OGRE 1.8.1 with vs2010配置](http://hi.baidu.com/friparia/item/58ace0f574c245c10cd1c83f)单独进行配置<br />
