@@ -1,16 +1,17 @@
 #include"RunStateEnemy.h"
 
-RunStateEnemy::RunStateEnemy(Ogre::SceneManager* m_pSceneMgr)
+RunStateEnemy::RunStateEnemy(Ogre::SceneManager* SceneMgr)
 {
-	this->m_pSceneMgr = m_pSceneMgr;
+	m_pSceneMgr=SceneMgr;
 }
 
 void RunStateEnemy::CreateEnemy()
 {
-	Ogre::SceneNode* node = m_pSceneMgr->createSceneNode("NodeE");
-	_EnemyEnt = m_pSceneMgr->createEntity("Enemy","Sinbad.mesh");
-	_EnemyNode = node->createChildSceneNode("EnemyNode");
+
+	_EnemyEnt = m_pSceneMgr->createEntity("Enemy","sinbad.mesh");
+	_EnemyNode = m_pSceneMgr->createSceneNode("ENode");
+	m_pSceneMgr->getRootSceneNode()->addChild(_EnemyNode);
 	_EnemyNode->setScale(3.0f,3.0f,3.0f);
-	_EnemyNode->setPosition(Ogre::Vector3(0.0f,4.0f,0.0f));
+	_EnemyNode->setPosition(Ogre::Vector3(10.0f,4.0f,0.0f));
 	_EnemyNode->attachObject(_EnemyEnt);
 }

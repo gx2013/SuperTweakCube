@@ -2,11 +2,11 @@
 
 class RunStateEnemy {
 public:
-	RunStateEnemy(Ogre::SceneManager* m_pSceneMgr);
+	RunStateEnemy(Ogre::SceneManager* SceneMgr);
 	void CreateEnemy();
 
 private:
-	Ogre::SceneManager* m_pSceneMgr;
 	Ogre::Entity* _EnemyEnt;
 	Ogre::SceneNode* _EnemyNode;
+	Ogre::SceneManager* m_pSceneMgr;
 };

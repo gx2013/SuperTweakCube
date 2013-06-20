@@ -33,10 +33,13 @@
     <ClCompile Include="RunState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="RunStateCube.cpp">
+    <ClCompile Include="RunStateEnemy.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="RunStateEnemy.cpp">
+    <ClCompile Include="Player.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="audio.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,10 +62,16 @@
     <ClInclude Include="RunState.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="RunStateCube.h">
+    <ClInclude Include="RunStateEnemy.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="RunStateEnemy.h">
+    <ClInclude Include="Player.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="audiere.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="audio.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
