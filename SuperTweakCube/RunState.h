@@ -1,14 +1,3 @@
-/********************************************************************
-	created:	2012/02/27
-	created:	27:2:2012   15:44
-	filename: 	E:\Ogre\Project\Ogre_Project\Game_Demo\RunState.h
-	file path:	E:\Ogre\Project\Ogre_Project\Game_Demo
-	file base:	RunState
-	file ext:	h
-	author:		Star
-	
-	purpose:	run state of game
-*********************************************************************/
 
 #include "GameState.h"
 #include "RunStateEnemy.h"

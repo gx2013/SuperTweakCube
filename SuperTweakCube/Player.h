@@ -6,7 +6,7 @@
 
 class Player {
 public:
-	enum Action {FREE,ATTACK,REMOTEATTACK};			//定义进行动作
+	enum Action {FREE,ATTACK,REMOTEATTACK,JUMP};			//定义进行动作
 	Player(Ogre::SceneManager* SceneMgr,Ogre::Camera* camera);
 	void Create();
 	void addTime(double time);
@@ -15,6 +15,7 @@ public:
 	void remoteAttack();
 	void Attack(double time);
 	void mousePressed(OIS::MouseButtonID id);
+	bool AABBQuery();
 	int Health;
 	Action PlayerAction;		//用户进行动作
 private:
@@ -30,12 +31,21 @@ private:
 	Ogre::AnimationState* _aniState;	//定义模型的动作1
 	Ogre::AnimationState* _aniStateTop; //定义模型的动作2
 	Ogre::AnimationState* _aniStateSlice; //动作三
+	Ogre::AnimationState* _aniStateJump;
 	Ogre::Entity* _CubeEnt;
 	Ogre::SceneNode* _CubeNode;
 	bool Cubeattack;
 	float Cubetime;
 	Ogre::Vector3 Cubedirect;
 	float ActionTime;
+	Ogre::AxisAlignedBox pbox;				//AABB包围盒
+	Ogre::AxisAlignedBox hbox;
+	Ogre::SceneNode* _PartNode;
+	Ogre::ParticleSystem* partSystem;		//粒子系统 烟雾
+	Ogre::ParticleSystem* partSystem2;		//粒子系统 烟雾2
+	bool WindWalk;				//加入一个疾风步技能
+	float WindWalktime;
+	float SpeedUp;
 };
 
 #endif

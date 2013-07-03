@@ -12,6 +12,9 @@ Player::Player(Ogre::SceneManager* SceneMgr,Ogre::Camera* camera)
 	ActionTime=0;
 	Create();
 	Health = 100;			//初始生命为100
+	WindWalk=false;			//是否使用疾风步
+	WindWalktime=0.0f;
+	SpeedUp = 1.0f;			//加速比例
 }
 
 void Player::Create()
@@ -27,24 +30,29 @@ void Player::Create()
 	Ogre::Entity* sword1 = m_pSceneMgr->createEntity("Sword1", "Sword.mesh");
 	Ogre::Entity* sword2 = m_pSceneMgr->createEntity("Sword2", "Sword.mesh");
 
-	_PlayerEnt->attachObjectToBone("Handle.L", sword1);
+	_PlayerEnt->attachObjectToBone("Handle.L", sword1);				//左右手
 	_PlayerEnt->attachObjectToBone("Handle.R", sword2);
 
-	_aniState =_PlayerEnt->getAnimationState("RunBase");
+	_aniState =_PlayerEnt->getAnimationState("RunBase");			//下身移动
 	_aniState->setEnabled(true);
 	_aniState->setLoop(false);
 
-	_aniStateTop = _PlayerEnt->getAnimationState("RunTop");
+	_aniStateTop = _PlayerEnt->getAnimationState("RunTop");				//上身移动
 	_aniStateTop->setEnabled(true);
 	_aniStateTop->setLoop(false);
 
-	_aniStateSlice = _PlayerEnt->getAnimationState("SliceVertical");
+	_aniStateSlice = _PlayerEnt->getAnimationState("SliceVertical");		//攻击动作
 	_aniStateSlice->setEnabled(true);
 	_aniStateSlice->setLoop(false);
 
-	_CubeEnt = m_pSceneMgr->createEntity("Cube","Cube.MESH");
+	_CubeEnt = m_pSceneMgr->createEntity("Cube","Cube.MESH");		//盒子模型
 	_CubeNode = m_pSceneMgr->createSceneNode("CubeNode");
 	m_pSceneMgr->getRootSceneNode()->addChild(_CubeNode);
+
+	_PartNode = m_pSceneMgr->createSceneNode("PartNode");
+	_PlayerNode->addChild(_PartNode);
+	partSystem = m_pSceneMgr->createParticleSystem("Smoke","Examples/Smoke");		//创建粒子系统
+	partSystem2 = m_pSceneMgr->createParticleSystem("Smoke2","MySmoke1");
 }
 
 void Player::keyPressed(const OIS::KeyEvent &evt)		//按键
@@ -92,6 +100,16 @@ void Player::keyPressed(const OIS::KeyEvent &evt)		//按键
 		else
 			_rotation = 1.57f;
 		walkedlr--;
+	}
+	if(evt.key==OIS::KC_1)				//发动技能1
+	{
+		if(WindWalk==false)
+		{
+			WindWalk=true;
+			_PartNode->attachObject(partSystem2);
+			WindWalktime=10000;
+			SpeedUp = 3.5f;
+		}
 	}
 }
 
@@ -204,21 +222,39 @@ void Player::addTime(double time)
 		}
 	}
 	
-	_PlayerNode->translate(-playerdir * PlayerTranslate.z * time/20);
-	_PlayerNode->translate(Ogre::Vector3(-playerdir.z,0.0f,playerdir.x) * PlayerTranslate.x * time/20);
+	_PlayerNode->translate(-playerdir * PlayerTranslate.z * time/20*SpeedUp);
+	_PlayerNode->translate(Ogre::Vector3(-playerdir.z,0.0f,playerdir.x) * PlayerTranslate.x * time/20*SpeedUp);
+	if(AABBQuery())			//进行AABB查询
+	{
+		_PlayerNode->translate(playerdir * PlayerTranslate.z * time/20*SpeedUp);
+		_PlayerNode->translate(-Ogre::Vector3(-playerdir.z,0.0f,playerdir.x) * PlayerTranslate.x * time/20*SpeedUp);
+	}
 	if(Cubeattack==true)
 	{
 		if(Cubetime>0)
 		{
 			Cubetime-=time;
-			_CubeNode->translate(playerdir * time/5);
-			_CubeNode->yaw(Ogre::Radian(0.1f));		//旋转
+			_CubeNode->translate(playerdir * time/3);
+			//_CubeNode->yaw(Ogre::Radian(0.1f));		//旋转
 		}
 		else
 		{
 			Cubetime=0;
 			Cubeattack=false;
 			_CubeNode->detachAllObjects();
+		}
+	}
+
+	if(WindWalk==true)		//当疾风步发动
+	{
+		if(WindWalktime>0)
+			WindWalktime-=time;
+		else
+		{
+			WindWalk = false;
+			WindWalktime = 0;
+			_PartNode->detachObject(partSystem2);
+			SpeedUp = 1.0f;
 		}
 	}
 }
@@ -241,8 +277,10 @@ void Player::remoteAttack()
 	{
 		_CubeNode->setScale(0.2f,0.2f,0.2f);
 		_CubeNode->setPosition(_PlayerNode->getPosition());
-		_CubeNode->attachObject(_CubeEnt);
+		//_CubeNode->attachObject(_CubeEnt);
 		_CubeNode->resetOrientation();					//方向复位
+		
+		_CubeNode->attachObject(partSystem);
 		Cubetime=1000;
 		Cubeattack=true;
 		ActionTime=300;
@@ -253,4 +291,76 @@ void Player::remoteAttack()
 void Player::Attack(double time)
 {
 	_aniStateSlice->addTime(time/1000);
+}
+
+bool Player::AABBQuery()
+{
+	pbox = _PlayerNode->_getWorldAABB();							//设置AABB盒
+	hbox = m_pSceneMgr->getSceneNode("house")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("house2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("house3")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("house4")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("house5")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("house6")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("lamp")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("lamp2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("gem")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("gem2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("gem3")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("gem4")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("gem5")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("gem6")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("south_fence")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("north_fence")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("west_fence")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("east_fence")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("south_fence2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("north_fence2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("west_fence2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	hbox = m_pSceneMgr->getSceneNode("east_fence2")->_getWorldAABB();
+	if(pbox.intersects(hbox))
+		return true;
+	return false;
 }

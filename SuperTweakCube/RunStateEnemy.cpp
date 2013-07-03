@@ -6,7 +6,8 @@ RunStateEnemy::RunStateEnemy(Ogre::SceneManager* SceneMgr,Ogre::Camera* camera,O
 	m_pCamera = camera;
 	EnemyAction = WAIT;
 	Translate = Ogre::Vector3(0,0,0);
-	ActionTime = 0;
+	ActionTime = 0.0f;
+	GodTime = 0.0f;
 	this->Postion = Postion;
 	math = new Ogre::Math();
 	health=100;
@@ -74,7 +75,12 @@ void RunStateEnemy::addTime(double time)
 			ActionTime=0;
 			getNextAction();
 		}
-		ishurted();
+		if(GodTime==0.0f)
+			ishurted();
+		else if(GodTime>0)
+			GodTime-=time;
+		else
+			GodTime = 0;
 	}
 	else if(ActionTime>0)
 		die(time);
@@ -114,18 +120,23 @@ void RunStateEnemy::getNextAction()
 void RunStateEnemy::ishurted()
 {
 	Ogre::Real distance;
-	distance = _EnemyNode->getPosition().distance(m_pSceneMgr->getSceneNode("CubeNode")->getPosition());
-	if(distance<10.0f)			//当Cube与怪物小于一定距离
+	if(player->PlayerAction==2)
 	{
-		health-=100;
-		m_pSceneMgr->getSceneNode("CubeNode")->setPosition(Ogre::Vector3(0.0f,-1000.0f,0.0f));		//把Cube放到很远的地方......
+		distance = _EnemyNode->getPosition().distance(m_pSceneMgr->getSceneNode("CubeNode")->getPosition());
+		if(distance<32.0f)			//当Cube与怪物小于一定距离
+		{
+			health-=100;
+			GodTime = 500;
+			m_pSceneMgr->getSceneNode("CubeNode")->setPosition(Ogre::Vector3(0.0f,-1000.0f,0.0f));		//把Cube放到很远的地方......
+		}
 	}
 	if(player->PlayerAction==1)
 	{
 		distance = _EnemyNode->getPosition().distance(m_pSceneMgr->getSceneNode("PNode")->getPosition());
-		if(distance<12.0f)			//当用户与怪物小于一定距离
+		if(distance<15.0f)			//当用户与怪物小于一定距离
 		{
 			health-=40;
+			GodTime = 500;
 		}
 	}
 	if(health<=0)

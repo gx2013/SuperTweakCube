@@ -30,6 +30,7 @@ private:
 	Ogre::AnimationState* _aniStateDie;	//定义模型的动作
 	Action EnemyAction;					//正在做的动作
 	float ActionTime;						//动作剩余时间
+	float GodTime;							//收伤害后的无敌时间
 
 	Player *player;
 	int health;
