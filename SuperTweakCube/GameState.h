@@ -59,7 +59,7 @@ protected:
 	void			Shutdown() { m_pListener->Shutdown(); }
 	void			PopAllAndPushGameState(CGameState* state) { m_pListener->PopAllAndPushGameState(state); }
 
-	CGameStateListener*				m_pListener;
+	CGameStateListener*		m_pListener;
 
 	Ogre::Camera*			m_pCamera;
 	Ogre::SceneManager*		m_pSceneMgr;

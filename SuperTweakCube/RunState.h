@@ -18,6 +18,12 @@ class CRunState : public CGameState
 {
 public:
 	CRunState();
+	Ogre::Overlay* mOverlay;
+	Ogre::Overlay* bOverlay;
+	Ogre::Overlay* gOverlay;
+	Ogre::OverlayElement* mpicture;
+	Ogre::OverlayElement* bpicture;
+	Ogre::OverlayElement* gpicture;
 
 	DECLARE_GAMESTATE_CLASS(CRunState)
 
@@ -34,29 +40,16 @@ public:
 	bool mousePressed( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
 	bool mouseReleased( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
 
-	//void mouseEvent();
-
 	void Update(double timeSinceLastFrame);
 
+	void createoverlay();
+	void scaleoverlay();
 private:
 	bool m_bQuit;
-	//Ogre::Entity* _SinbadEnt;
-	//Ogre::SceneNode* _SinbadNode;
-	//Ogre::Entity* _CubeEnt;
-	//Ogre::SceneNode* _CubeNode;
-	//Ogre::AnimationState* _aniState;
-	//Ogre::AnimationState* _aniStateTop;
-	//Ogre::AnimationState* _newaniState;
 	Ogre::Vector3 translate;
-	//Ogre::Vector3 SinbadTranslate;
-	//float _rotation;
-	//bool Cubeattack;
-	//int walkedud;
-	//int walkedlr;
-	//int Cubetime;
-	//Ogre::Vector3 Cubedirect;
-	RunStateEnemy* Enemy;
+	RunStateEnemy* Enemy[3];
 	Player* player;
-
+	Ogre::SceneNode* CampivotNode;
 	int mousewheeltime;			//鼠标滚轮滚动时间
+	Ogre::AnimationState* _aniStateNPC;
 };
